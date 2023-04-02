@@ -1,0 +1,1 @@
+{		"complexList": [			{				"generic": {					"field1": "test1",					"field2": "ENOOM1"				}			},			{				"generic": {					"field1": null,					"field2": "ENOOM2"				}			}		]}

@@ -11,3 +11,17 @@ If built, the jar-with-depedencies can be run with the following files in the sa
 - vosk-config.json
 
 Make sure to configure those last two before using
+
+## Changelog
+
+### 1.0.0
+#### Added
+- The microphone can convert speech to text then sends to OpenAI's ChatGPT API
+- The conversation is displayed as message app-style text bubbles  
+
+### 1.1.0
+#### Added
+- A textbox which buffers the message before it is sent to the ChatGPT API
+- A send button to send the message to the ChatGPT API
+#### Changed
+- The text to speech destination is now the textbox instead of a direct API call

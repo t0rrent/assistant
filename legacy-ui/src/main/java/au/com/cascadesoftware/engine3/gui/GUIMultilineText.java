@@ -145,7 +145,7 @@ public class GUIMultilineText extends GUI {
 	}
 
 	public void setText(String inputText) {
-		inputText = inputText.replace("[ tick]", "|");
+		inputText = inputText.replace("[ÃŒtick]", "|");
 		this.inputText = inputText;
 		this.textToDraw = inputText;
 		needsFitting = true;

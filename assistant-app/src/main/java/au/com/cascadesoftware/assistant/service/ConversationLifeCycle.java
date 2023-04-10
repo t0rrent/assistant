@@ -6,7 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import au.com.cascadesoftware.assistant.BufferedConversation;
 import au.com.cascadesoftware.engine4.service.LifeCycle;
 import au.com.cascadesoftware.openai.model.Conversation;
 import au.com.cascadesoftware.openai.service.GptQueryService;
@@ -27,7 +26,8 @@ public class ConversationLifeCycle implements LifeCycle {
 	private AudioSource microphone;
 	private SpeechRecognitionStream stream;
 	private ScheduledFuture<?> handleStreamSchedule;
-	private BufferedConversation conversation;
+	private Conversation conversation;
+	private boolean awaitingResponse;
 	
 	@Inject
 	public ConversationLifeCycle(
@@ -61,7 +61,7 @@ public class ConversationLifeCycle implements LifeCycle {
 	}
 
 	public void newConversation() {
-		conversation = new BufferedConversation();
+		conversation = new Conversation();
 	}
 	
 	public Conversation getConversation() {
@@ -80,9 +80,17 @@ public class ConversationLifeCycle implements LifeCycle {
 	}
 	
 	public void send() {
-		conversation.addMessage(ROLE_USER, textboxService.getContent());
-		textboxService.clear();
-		gptQueryService.message(conversation);
+		if (!awaitingResponse) {
+			awaitingResponse = true;
+			conversation.addMessage(ROLE_USER, textboxService.getContent());
+			textboxService.clear();
+			gptQueryService.messageAsync(conversation, this::onResponse);
+		}
+	}
+	
+	private void onResponse(final Conversation conversation) {
+		this.conversation = conversation;
+		awaitingResponse = false;
 	}
 
 }

@@ -224,7 +224,7 @@ public class GUITextboxDesktop extends GUITextbox  {
 		return inputText.replace(TICK, "");
 	}
 	
-	private static final String TICK = "[�tick]";
+	private static final String TICK = "[Ìtick]";
 
 	@Override
 	public void setOnEntry(Runnable r) {

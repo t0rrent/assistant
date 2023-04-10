@@ -3,6 +3,8 @@ package au.com.cascadesoftware.openai.service;
 import static au.com.cascadesoftware.openai.model.Message.ROLE_ASSISTANT;
 
 import java.io.IOException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Consumer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,7 +20,8 @@ import au.com.cascadesoftware.json.service.JsonService;
 import au.com.cascadesoftware.openai.model.Conversation;
 import au.com.cascadesoftware.openai.model.Message;
 import au.com.cascadesoftware.openai.model.OpenAIConfig;
-import jakarta.inject.Inject;;
+import jakarta.inject.Inject;
+
 public class SimpleGptQueryService implements GptQueryService {
 	
 	private static final int READ_TIMEOUT_MILLISECONDS = 30000;
@@ -28,18 +31,21 @@ public class SimpleGptQueryService implements GptQueryService {
 	private final ObjectMapper objectMapper;
 	private final JsonService jsonService;
 	private final OpenAIConfig config;
+	private final ScheduledExecutorService scheduledExecutorService;
 	
 	@Inject
 	public SimpleGptQueryService(
 			final HttpService httpService, 
 			final ObjectMapper objectMapper,
 			final JsonService jsonService,
-			final OpenAIConfig config
+			final OpenAIConfig config,
+			final ScheduledExecutorService scheduledExecutorService
 	) {
 		this.httpService = httpService;
 		this.objectMapper = objectMapper;
 		this.jsonService = jsonService;
 		this.config = config;
+		this.scheduledExecutorService = scheduledExecutorService;
 	}
 
 	@Override
@@ -65,6 +71,11 @@ public class SimpleGptQueryService implements GptQueryService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void messageAsync(final Conversation conversation, final Consumer<Conversation> callback) {
+		scheduledExecutorService.execute(() -> callback.accept(message(conversation)));
 	}
 
 	private JsonNode getQueryBody(final Conversation conversation) throws JsonMappingException, JsonProcessingException {

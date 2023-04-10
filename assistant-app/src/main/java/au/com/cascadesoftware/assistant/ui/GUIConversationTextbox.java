@@ -67,7 +67,12 @@ public class GUIConversationTextbox extends GUI {
 				PLACEHOLDER_TEXT_COLOR,
 				Color.INVISIBLE, 
 				Color.INVISIBLE
-		);
+		) {
+			@Override
+			public void enter() {
+				sendMessage();
+			}
+		};
 		textbox.setCursorBlack(true);
 		textbox.setTextAlignment(Alignment.MIDDLE_LEFT);
 		textbox.setInputListenerZone((onScreenBounds) -> onScreenBounds.expandByFactorOf(0, 1));
@@ -106,7 +111,7 @@ public class GUIConversationTextbox extends GUI {
 			@Override
 			public void onClick() {
 				clickShade.click();
-				onSendButtonClicked();
+				sendMessage();
 			}
 		};
 
@@ -117,7 +122,7 @@ public class GUIConversationTextbox extends GUI {
 		return sendImage;
 	}
 
-	private void onSendButtonClicked() {
+	private void sendMessage() {
 		conversationLifeCycle.send();
 	}
 

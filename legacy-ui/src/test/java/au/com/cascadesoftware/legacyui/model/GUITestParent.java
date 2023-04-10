@@ -10,9 +10,10 @@ public class GUITestParent extends GUI {
 		super(window, bounds);
 	}
 	
-	public <C extends GUI> void addAnInjectableChild(final Class<C> injectableChild) {
+	public <C extends GUI> C addAnInjectableChild(final Class<C> injectableChild) {
 		final C child = createInjectable(injectableChild);
 		addGUI(child);
+		return child;
 	}
 
 }

@@ -89,7 +89,6 @@ public class HttpRequest {
 		
 		private final RequestMethod requestMethod;
 		
-		//TODO make units clear or use duration config
 		private int connectTimeoutMs;
 		
 		private int readTimeoutMs;

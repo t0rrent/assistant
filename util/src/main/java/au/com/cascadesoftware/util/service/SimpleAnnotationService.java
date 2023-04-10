@@ -10,7 +10,7 @@ import au.com.cascadesoftware.util.annotation.NonNull;
 public class SimpleAnnotationService implements AnnotationService {
 
 	@Override
-	public <T> T processAnnotations(final T unprocessed) throws AnnotationException {
+	public <T> T processAnnotations(final T unprocessed) {
 		for (final Field field : unprocessed.getClass().getFields()) {
 			if (field.isEnumConstant() || Modifier.isStatic(field.getModifiers())) {
 				continue;
@@ -32,11 +32,11 @@ public class SimpleAnnotationService implements AnnotationService {
 		return unprocessed;
 	}
 
-	private Object applyAnnotations(final Object fieldValue, final Annotation[] annotations, final Field field) throws AnnotationException {
+	private Object applyAnnotations(final Object fieldValue, final Annotation[] annotations, final Field field) {
 		for (final Annotation annotation : annotations) {
 			if (annotation.annotationType().equals(NonNull.class)) {
 				if (fieldValue == null) {
-					throw new AnnotationException("NonNull field {} is null".formatted(field));
+					throw new AnnotationException(field, "field is not null");
 				}
 			}
 		}

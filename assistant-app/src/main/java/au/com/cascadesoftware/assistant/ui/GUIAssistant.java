@@ -16,7 +16,9 @@ public class GUIAssistant extends GUI {
 	}
 	
 	public void init() {
-		addGUI(createInjectable(GUIChatbox.class));
+		final GUIMessageView messageView = createInjectable(GUIMessageView.class);
+		addGUI(messageView);
+		messageView.initialize();
 	}
 
 }

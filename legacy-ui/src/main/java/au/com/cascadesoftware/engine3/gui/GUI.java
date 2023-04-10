@@ -16,6 +16,7 @@ import au.com.cascadesoftware.engine3.display.Window;
 import au.com.cascadesoftware.engine3.graphics.Color;
 import au.com.cascadesoftware.engine3.graphics.Graphics;
 import au.com.cascadesoftware.engine3.graphics.Paint;
+import au.com.cascadesoftware.legacyui.service.GUIInjectorService;
 import jakarta.inject.Inject;
 //import au.com.cascadesoftware.engine3.gui.web.Container;
 //import au.com.cascadesoftware.engine3.gui.web.HTMLDocument;
@@ -383,7 +384,8 @@ public class GUI {
 	}
 	
 	protected <C> C createInjectable(final Class<C> type) {
-		return getServiceLocator().create(type);
+		return getServiceLocator().getService(GUIInjectorService.class)
+				.createInjectable(type);
 	}
 	
 }

@@ -13,7 +13,7 @@ import au.com.cascadesoftware.util.IOUtils;
 import au.com.cascadesoftware.util.service.CachingService;
 import jakarta.inject.Inject;
 
-public class ConfigLoadingService implements ConfigService { // TODO tests
+public class ConfigLoadingService implements ConfigService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConfigLoadingService.class);
 

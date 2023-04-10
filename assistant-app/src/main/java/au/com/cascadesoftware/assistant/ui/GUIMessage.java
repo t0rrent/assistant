@@ -1,8 +1,9 @@
 package au.com.cascadesoftware.assistant.ui;
 
+import static au.com.cascadesoftware.openai.model.Message.ROLE_USER;
+
 import java.util.List;
 
-import au.com.cascadesoftware.assistant.service.ConversationLifeCycle;
 import au.com.cascadesoftware.engine2.math.Rectf;
 import au.com.cascadesoftware.engine3.display.Window;
 import au.com.cascadesoftware.engine3.graphics.Color;
@@ -103,7 +104,7 @@ public class GUIMessage extends GUI {
 	}
 
 	private static Color getColor(final String role) {
-		if (role.equals(ConversationLifeCycle.ROLE_USER)) {
+		if (role.equals(ROLE_USER)) {
 			return USER_COLOR;
 		} else {
 			return ASSISTANT_COLOR;
@@ -111,7 +112,7 @@ public class GUIMessage extends GUI {
 	}
 
 	private static Color getTextColor(final String role) {
-		if (role.equals(ConversationLifeCycle.ROLE_USER)) {
+		if (role.equals(ROLE_USER)) {
 			return Color.WHITE;
 		} else {
 			return Color.BLACK;
@@ -119,7 +120,7 @@ public class GUIMessage extends GUI {
 	}
 	
 	private static Alignment getAlignment(final String role) {
-		if (role.equals(ConversationLifeCycle.ROLE_USER)) {
+		if (role.equals(ROLE_USER)) {
 			return Alignment.TOP_RIGHT;
 		} else {
 			return Alignment.TOP_LEFT;

@@ -1,5 +1,7 @@
 package au.com.cascadesoftware.openai.service;
 
+import static au.com.cascadesoftware.openai.model.Message.ROLE_ASSISTANT;
+
 import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,8 +18,7 @@ import au.com.cascadesoftware.json.service.JsonService;
 import au.com.cascadesoftware.openai.model.Conversation;
 import au.com.cascadesoftware.openai.model.Message;
 import au.com.cascadesoftware.openai.model.OpenAIConfig;
-import jakarta.inject.Inject;
-
+import jakarta.inject.Inject;;
 public class SimpleGptQueryService implements GptQueryService {
 	
 	private static final int READ_TIMEOUT_MILLISECONDS = 30000;
@@ -54,7 +55,13 @@ public class SimpleGptQueryService implements GptQueryService {
 			final Message newMessage = jsonService.extract(response.toString(), Message.class, "choices", "0", "message");
 			conversation.addMessage(newMessage);
 			return conversation;
-		} catch (IOException | HttpException e) {
+		} catch (final HttpException e) {
+			final Message errorMessage = new Message();
+			errorMessage.setRole(ROLE_ASSISTANT);
+			errorMessage.setContent(jsonService.extract(e.getResponseMessage(), String.class, "error", "message"));
+			conversation.addMessage(errorMessage);
+			return conversation;
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return null;

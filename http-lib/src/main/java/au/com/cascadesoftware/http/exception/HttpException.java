@@ -7,20 +7,21 @@ public class HttpException extends Exception {
 	public static final int TIMEOUT_CODE = 408;
 	
 	private final int responseCode;
-
-	@Deprecated
-	public HttpException(final int responseCode) {
-		super("Response code: " + responseCode);
-		this.responseCode = responseCode;
-	}
+	
+	private final String responseMessage;
 
 	public HttpException(final int responseCode, final String message) {
 		super("Response code: " + responseCode + "\nError message: " + message);
 		this.responseCode = responseCode;
+		this.responseMessage = message;
 	}
 
 	public int getResponseCode() {
 		return responseCode;
+	}
+
+	public String getResponseMessage() {
+		return responseMessage;
 	}
 
 }

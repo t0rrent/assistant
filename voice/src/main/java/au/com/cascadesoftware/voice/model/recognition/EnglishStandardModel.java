@@ -13,6 +13,4 @@ public class EnglishStandardModel extends Model {
 		super(location);
 	}
 	
-	//"D:\\vosk-models\\vosk-model-en-us-0.21"
-	
 }

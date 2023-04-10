@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.function.Function;
 
 import au.com.cascadesoftware.engine2.math.Rectf;
 import au.com.cascadesoftware.engine2.math.Recti;
@@ -31,9 +32,13 @@ public class GUITextboxDesktop extends GUITextbox  {
 	private Runnable onEntry;
 	private long tickTime;
 	private boolean cursorBlack;
+			
+	private Function<Recti, Recti> inputListenerZone;
+	private boolean lastHover;
 
 	public GUITextboxDesktop(Window window, Boundary bounds, int lines, Color textColor, Color placeholderColor, Color boxColor, Color borderColor) {
 		super(window, bounds);
+		this.inputListenerZone = (onScreenBounds) -> onScreenBounds;
 		oldCursor = Cursor.DEFAULT;
 		this.textColor = textColor;
 		this.placeholderColor = placeholderColor;
@@ -43,16 +48,6 @@ public class GUITextboxDesktop extends GUITextbox  {
 		this.addGUI(box);
 		textField = new GUIMultilineText(window, new Boundary(new Rectf(0,0,1,1), Scalar.STRETCHED, Alignment.MIDDLE_CENTER), lines, textColor, "");
 		this.addGUI(textField);
-		addGUI(new GUIHover(window, new Boundary()) {
-			@Override
-			protected void onStateChange(float phase) {
-				if(phase == 0) window.setCursor(oldCursor);
-				else if(phase == 1){
-					oldCursor = window.getCursor();
-					window.setCursor(cursorBlack ? Cursor.TEXT_BLACK : Cursor.TEXT);
-				}
-			}
-		});
 	}
 	
 	public GUITextboxDesktop(Window window, Boundary bounds, int lines, Theme theme){
@@ -67,7 +62,17 @@ public class GUITextboxDesktop extends GUITextbox  {
 		boolean controlTest = doControlTest();
 		if(controlTest || controlTextLast) return;
 		controlTextLast = controlTest;
-		Recti boxBounds = getOnScreenBounds();
+		Recti boxBounds = inputListenerZone.apply(getOnScreenBounds());
+		final boolean currentHover = boxBounds.contains(input.getMousePos());
+		if (currentHover != lastHover) {
+			if (currentHover) {
+				oldCursor = getWindow().getCursor();
+				getWindow().setCursor(cursorBlack ? Cursor.TEXT_BLACK : Cursor.TEXT);
+			} else {
+				getWindow().setCursor(oldCursor);
+			}
+		}
+		lastHover = currentHover;
 		if(input.isMouseClicked(Mouse.BUTTON1)){
 			enteringInput = boxBounds.contains(input.getMousePos());
 			if(!enteringInput) inputText = inputText.replace(TICK, "");
@@ -219,7 +224,7 @@ public class GUITextboxDesktop extends GUITextbox  {
 		return inputText.replace(TICK, "");
 	}
 	
-	private static final String TICK = "[ tick]";
+	private static final String TICK = "[ï¿½tick]";
 
 	@Override
 	public void setOnEntry(Runnable r) {
@@ -239,6 +244,10 @@ public class GUITextboxDesktop extends GUITextbox  {
 
 	public void setCursorBlack(boolean b) {
 		this.cursorBlack = b;
+	}
+	
+	public void setInputListenerZone(final Function<Recti, Recti> inputListenerZone) {
+		this.inputListenerZone = inputListenerZone;
 	}
 
 }

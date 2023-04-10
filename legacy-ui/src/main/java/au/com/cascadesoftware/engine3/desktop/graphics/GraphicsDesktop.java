@@ -104,7 +104,8 @@ public class GraphicsDesktop implements Graphics {
 		Composite old = bufferGraphics.getComposite();
 		bufferGraphics.setComposite(ac);
 		Image img = ((ResourceLoaderDesktop) resourceLoader).loadImage();
-		bufferGraphics.drawImage(img, x, y, width, height, null);
+		final Image scaled = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		bufferGraphics.drawImage(scaled, x, y, width, height, null);
 		bufferGraphics.setComposite(old);
 	}
 

@@ -12,7 +12,7 @@ public class Executions {
 				for (int j = 0; j < repetitions; j++) {
 					runnable.run();
 				}
-			});//
+			});
 			thread.start();
 			threads.add(thread);
 		}

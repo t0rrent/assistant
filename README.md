@@ -27,3 +27,9 @@ Make sure to configure those last two before using
 - A send button to send the message to the ChatGPT API
 #### Changed
 - The text to speech destination is now the textbox instead of a direct API call
+
+### 1.1.1
+#### Added
+- Enter key will send the message when the textbox is selected
+#### Changed
+- ChatGPT API calls are now asynchronous, the UI will no longer freeze until response

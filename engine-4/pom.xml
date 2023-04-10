@@ -3,7 +3,7 @@
   <parent>
     <groupId>au.com.cascadesoftware</groupId>
     <artifactId>assistant</artifactId>
-    <version>1.1.0</version>
+    <version>${assistantVersion}</version>
   </parent>
   <artifactId>engine-4</artifactId>
 </project>

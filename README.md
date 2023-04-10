@@ -1,4 +1,6 @@
-# assistant
+# assistant  
+
+## Usage
 To use this assistant program you will need the following:
 - An OpenAI API key
 - A Vosk language model

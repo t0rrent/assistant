@@ -8,6 +8,6 @@ public interface GptQueryService {
 
 	Conversation message(Conversation conversation);
 
-	void messageAsync(Conversation conversation, Consumer<Conversation> callbackk);
+	void messageAsync(Conversation conversation, Consumer<Conversation> callback);
 
 }

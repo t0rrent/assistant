@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 
 import au.com.cascadesoftware.util.TypeCheck;
-import au.com.cascadesoftware.util.annotation.AnnotationException;
 import au.com.cascadesoftware.util.service.AnnotationService;
 import jakarta.inject.Inject;
 
@@ -43,7 +42,7 @@ public class SimpleJsonService implements JsonService {
 		try {
 			final JsonNode root = objectMapper.readTree(jsonText);
 			return extract(root, type, locations);
-		} catch (final JsonProcessingException | IllegalArgumentException | AnnotationException e) {
+		} catch (final JsonProcessingException | IllegalArgumentException e) {
 			LOGGER.error("JSON value extract failed", e);
 			return null;
 		}
@@ -70,7 +69,7 @@ public class SimpleJsonService implements JsonService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> T extract(final JsonNode rootNode, final Class<T> type, final String... locations) throws JsonProcessingException, IllegalArgumentException, AnnotationException {	
+	private <T> T extract(final JsonNode rootNode, final Class<T> type, final String... locations) throws JsonProcessingException, IllegalArgumentException {	
 		if (type == JsonNode.class) {
 			return (T) rootNode;
 		}
@@ -101,7 +100,7 @@ public class SimpleJsonService implements JsonService {
 		try {
 			final JsonNode root = objectMapper.readTree(inputStream);
 			return extract(root, type, locations);
-		} catch (final IOException | IllegalArgumentException | AnnotationException e) {
+		} catch (final IOException | IllegalArgumentException e) {
 			LOGGER.error("JSON value extract failed", e);
 			return null;
 		}

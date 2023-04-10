@@ -2,22 +2,22 @@ package au.com.cascadesoftware.legacyui.hk2.factory;
 
 import org.glassfish.hk2.api.Factory;
 
+import au.com.cascadesoftware.config.service.ConfigService;
 import au.com.cascadesoftware.legacyui.config.WindowConfig;
-import au.com.cascadesoftware.legacyui.service.WindowConfigService;
 import jakarta.inject.Inject;
 
 public class MainWindowConfigFactory implements Factory<WindowConfig> {
 	
-	private final WindowConfigService windowConfigService;
+	private final ConfigService configService;
 	
 	@Inject
-	public MainWindowConfigFactory(final WindowConfigService windowConfigService) {
-		this.windowConfigService = windowConfigService;
+	public MainWindowConfigFactory(final ConfigService configService) {
+		this.configService = configService;
 	}
 
 	@Override
 	public WindowConfig provide() {
-		return windowConfigService.loadMainWindowConfg();
+		return configService.loadConfig(WindowConfig.MAIN_WINDOW_CONFIG, WindowConfig.class);
 	}
 
 	@Override

@@ -19,6 +19,8 @@ import au.com.cascadesoftware.util.hk2.binder.UtilModuleBinder;
 import au.com.cascadesoftware.voice.hk2.binder.VoiceModuleBinder;
 
 public class AssistantApplication {
+	
+	private static final String ASSISTANT_WINDOW_CONFIG = "assistant-window.config";
 
 	private static final @NonNull Collection<Supplier<Binder>> BINDERS = Arrays.asList(
 			JsonModuleBinder::new,
@@ -33,8 +35,12 @@ public class AssistantApplication {
 
 	public static void main(String[] args) {
 		final Engine4 engine = new Engine4(BINDERS);
-		WindowConfig.MAIN_WINDOW_CONFIG = "assistant-window.config";
+		initWindowConfig();
 		engine.start();
+	}
+
+	public static void initWindowConfig() {
+		WindowConfig.MAIN_WINDOW_CONFIG = ASSISTANT_WINDOW_CONFIG;
 	}
 
 }

@@ -1,5 +1,8 @@
 package au.com.cascadesoftware.assistant.ui;
 
+import static au.com.cascadesoftware.openai.model.Message.ROLE_ASSISTANT;
+import static au.com.cascadesoftware.openai.model.Message.ROLE_USER;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,7 +19,6 @@ import au.com.cascadesoftware.engine3.gui.Scalar;
 import au.com.cascadesoftware.openai.model.Conversation;
 import au.com.cascadesoftware.openai.model.Message;
 import jakarta.inject.Inject;
-
 public class GUIChatbox extends GUI {
 	
 	private final int MESSAGE_PADDING = 20;
@@ -26,8 +28,8 @@ public class GUIChatbox extends GUI {
 	private static final float SCROLLBAR_WIDTH = 20;
 	
 	private static final Collection<String> DISPLAYED_ROLES = Arrays.asList(
-			ConversationLifeCycle.ROLE_USER,
-			ConversationLifeCycle.ROLE_ASSISTANT
+			ROLE_USER,
+			ROLE_ASSISTANT
 	);
 	
 	private final GUI canvas;

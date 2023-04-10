@@ -1,5 +1,7 @@
 package au.com.cascadesoftware.assistant.service;
 
+import static au.com.cascadesoftware.openai.model.Message.ROLE_USER;
+
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -15,16 +17,12 @@ import au.com.cascadesoftware.voice.service.SpeechRecognitionService;
 import jakarta.inject.Inject;
 
 public class ConversationLifeCycle implements LifeCycle {
-
-	public static final String ROLE_USER = "user";
-	public static final String ROLE_ASSISTANT = "assistant";
 	
 	private final AudioSourceService audioSourceService;
 	private final SpeechRecognitionService speechRecognitionService;
 	private final ScheduledExecutorService scheduledExecutorService;
 	private final GptQueryService gptQueryService;
-
-	private final StringBuilder lineBuilder;
+	private final TextboxService textboxService;
 	
 	private AudioSource microphone;
 	private SpeechRecognitionStream stream;
@@ -36,13 +34,14 @@ public class ConversationLifeCycle implements LifeCycle {
 			final AudioSourceService audioSourceService,
 			final SpeechRecognitionService speechRecognitionService,
 			final ScheduledExecutorService scheduledExecutorService,
-			final GptQueryService gptQueryService
+			final GptQueryService gptQueryService,
+			final TextboxService textboxService
 	) {
 		this.audioSourceService = audioSourceService;
 		this.speechRecognitionService = speechRecognitionService;
 		this.scheduledExecutorService = scheduledExecutorService;
 		this.gptQueryService = gptQueryService;
-		lineBuilder = new StringBuilder();
+		this.textboxService = textboxService;
 	}
 
 	@Override
@@ -70,32 +69,19 @@ public class ConversationLifeCycle implements LifeCycle {
 	}
 	
 	private void handleUserInputStream() {
-		try {
 		final Character c = stream.read();
-		if (c == null) {
-			return;
-		}
-		if (c == '\n') {
-			finishUserInput();
-		} else if (c == '\b') {
-			lineBuilder.setLength(lineBuilder.length() - 1);
-			updateUserBuffer();
-		} else {
-			lineBuilder.append(c);
-			updateUserBuffer();
-		}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (c != null) {
+			if (c == '\b') {
+				textboxService.backspace();
+			} else if (c != '\n') {
+				textboxService.append(c);
+			}
 		}
 	}
-
-	private void updateUserBuffer() {
-		conversation.setBuffer(ROLE_USER, lineBuilder.toString());
-	}
-
-	private void finishUserInput() {
-		conversation.pushBuffer(ROLE_USER);
-		lineBuilder.setLength(0);
+	
+	public void send() {
+		conversation.addMessage(ROLE_USER, textboxService.getContent());
+		textboxService.clear();
 		gptQueryService.message(conversation);
 	}
 

@@ -46,7 +46,7 @@ public class CachedTransformServiceTest {
 		final CachingStrategy cachingStrategy = CachingStrategy.builder().setExpiry(Duration.of(1, ChronoUnit.SECONDS)).build();
 		final Function<String, Integer> exampleCacheTransform = cachingService.createCachedTransform(mockTransform, cachingStrategy);
 		applyTest(mockTransform, exampleCacheTransform);
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		exampleCacheTransform.apply("a");
 		exampleCacheTransform.apply("ab");
 		verify(mockTransform, times(4)).apply(anyString());

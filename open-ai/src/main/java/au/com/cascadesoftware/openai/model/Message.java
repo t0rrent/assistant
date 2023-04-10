@@ -3,6 +3,10 @@ package au.com.cascadesoftware.openai.model;
 import java.io.Serializable;
 
 public class Message implements Serializable {
+
+	public static final String ROLE_USER = "user";
+	
+	public static final String ROLE_ASSISTANT = "assistant";
 	
 	private static final long serialVersionUID = 7794193323123854261L;
 	

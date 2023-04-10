@@ -22,8 +22,6 @@ import jakarta.inject.Inject;
 @ExtendWith(HttpHK2TestExtension.class)
 public class SimpleHttpServiceIT {
 	
-	//private static final String EXAMPLE_JSON = "{\n    \"text\": \"just some nicely formatted json\"\n}";
-	
 	@Inject
 	public HttpService httpService;
 	
@@ -54,44 +52,5 @@ public class SimpleHttpServiceIT {
 		assertThrows(NullPointerException.class, () -> httpService.invokeHttp(HttpRequest.simpleGet("")));
 		assertThrows(NullPointerException.class, () -> httpService.invokeHttp(HttpRequest.simpleGet(null)));
 	}
-	
-	/*
-	private void testInvalidPostOrPut(
-			final ThrowingTriFunction<JsonNode, String, Map<String, String>, JsonNode, Exception> transform, 
-			final String methodUrl
-	) throws JsonProcessingException {
-		final JsonNode content = objectMapper.readTree(EXAMPLE_JSON);
-		Map<String, String> parameters = new HashMap<>();
-		parameters.put("symbol", "000020");
-		assertThrows(HttpException.class, () -> transform.apply(content, "https://api.twelvedata.com/technical_indicators", parameters));
-		
-		assertThrows(HttpException.class, () -> transform.apply(content, "https://api.openweathermap.org/data", null));
-		
-		assertThrows(NullPointerException.class, () -> transform.apply(null, "http://httpbin.org/" + methodUrl, null));
-		assertThrows(NullPointerException.class, () -> transform.apply(content, "", null));
-		assertThrows(NullPointerException.class, () -> transform.apply(content, null, null));
-	}
-	
-	@Test
-	public void testPost() throws IOException, HttpException {
-		testPostOrPut(httpService::post, "post");
-	}
-
-	@Test
-	public void testInvalidPost() throws JsonProcessingException {
-		testInvalidPostOrPut(httpService::post, "post");
-		assertThrows(JsonParseException.class, () -> httpService.post(objectMapper.readTree(EXAMPLE_JSON), "https://example.com/"));
-	}
-
-	@Test
-	public void testPut() throws IOException, HttpException  {
-		testPostOrPut(httpService::put, "put");
-	}
-
-	@Test
-	public void testInvalidPut() throws JsonProcessingException {
-		testInvalidPostOrPut(httpService::put, "put");
-	}*/
-	
 
 }

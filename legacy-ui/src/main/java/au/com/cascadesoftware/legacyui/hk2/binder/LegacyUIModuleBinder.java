@@ -10,9 +10,9 @@ import au.com.cascadesoftware.engine4.service.CriticalLifeCycle;
 import au.com.cascadesoftware.legacyui.config.WindowConfig;
 import au.com.cascadesoftware.legacyui.hk2.factory.MainWindowConfigFactory;
 import au.com.cascadesoftware.legacyui.service.GUICalculationsService;
+import au.com.cascadesoftware.legacyui.service.GUIInjectorService;
+import au.com.cascadesoftware.legacyui.service.SimpleGUIInjectorService;
 import au.com.cascadesoftware.legacyui.service.UILifeCycle;
-import au.com.cascadesoftware.legacyui.service.WindowConfigLoadingService;
-import au.com.cascadesoftware.legacyui.service.WindowConfigService;
 import au.com.cascadesoftware.legacyui.ui.GUILoading;
 import jakarta.inject.Singleton;
 
@@ -25,10 +25,9 @@ public class LegacyUIModuleBinder extends AbstractBinder {
 		bind(WindowDesktop.class).to(Window.class).in(Singleton.class);
 		bind(GUILoading.class).to(GUI.class).in(Singleton.class).ranked(GUI.DEFAULT_BIND_RANK);
 		
-		bind(WindowConfigLoadingService.class).to(WindowConfigService.class).in(Singleton.class);
 		bindAsContract(UILifeCycle.class).to(CriticalLifeCycle.class).in(Singleton.class);
-		
 		bindAsContract(GUICalculationsService.class).in(Singleton.class);
+		bind(SimpleGUIInjectorService.class).to(GUIInjectorService.class).in(Singleton.class);
 	}
 
 }

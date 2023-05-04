@@ -31,21 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-## Settings Ignore ##
-csci318-part-b-core/.settings/
-csci318-part-b-sales/.settings/
-csci318-part-b-procurement/.settings/
-csci318-part-b-inventory/.settings/
-
-## Target Ignore ##
-csci318-part-b-core/.target/
-csci318-part-b-sales/.target/
-csci318-part-b-procurement/.target/
-csci318-part-b-inventory/.target/
-
-## Classpath Ignore ##
-csci318-part-b-core/.classpath
-csci318-part-b-sales/.classpath
-csci318-part-b-procurement/.classpath
-csci318-part-b-inventory/.classpath
